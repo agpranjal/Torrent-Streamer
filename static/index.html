@@ -15,14 +15,15 @@
 
 <body>
 	<nav class="navbar navbar-dark bg-dark mb-4">
-		<div class="block m-2">
+		<span class="navbar-brand text-light mb-0 h1 mx-auto">T0rrent Stre4mer</span>
+
+		<div class="block m-2 float-right col-2">
 			<!--Button trigger modal-->
-			<button type="button" data-toggle="modal" data-target="#exampleModalCenter">
-				Open pirates bay
+			<button type="button" class="bg-dark btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+				Open Pirates Bay
 			</button>
 		</div>
 
-		<span class="navbar-brand text-light mb-0 h1 mx-auto">T0rrent Stre4mer</span>
 	</nav>
 
 	<!-- Modal -->
@@ -65,7 +66,7 @@
 
 	<!--Sample torrents for testing -->
 	<ul class="list-group mt-5 ml-3" id="sample-torrents-container">
-		<h4 class="mb-3 text-danger ml-1"><strong>Sample torrents:</strong></h4>
+		<h4 class="mb-3 text-danger ml-1 text-decoration-underline" style="text-decoration: underline;"><strong>Sample torrents:</strong></h4>
 		<li class="list-group-items sample-torrent m-1"><strong>Transformers Age Of Extinction:</strong> 774DA94A7602E1B053C61205DF20C810A5621828 </li>
 		<li class="list-group-items sample-torrent m-1"><strong>Transformers Dark Of The Moon:</strong>  13EF31D1E2CB4050ADD4933CAB8C0D13F22C6252 </li>
 		<li class="list-group-items sample-torrent m-1"><strong>Batman Begins:</strong> 52FD58172C296021F2E351B8A12BBC8BE7C88F8D </li>
@@ -93,6 +94,7 @@
 			// After torrent URI submission, hide the submit button
 			// And load the "loading" animated button
 			document.getElementById("submit").style.display = "none";
+			document.getElementById("magnet").disabled = true;
 			document.getElementById("loading-button").style.display = "block";
 
 			let inputData = document.getElementById("magnet");
@@ -103,7 +105,7 @@
 				if (this.readyState == 4 && this.status == 200) {
 					let data = JSON.parse(this.responseText);
 					let ul = document.getElementById("magnet-links");
-					ul.innerHTML = "<h4 style='color:green; text-align: center;'><strong>Available files</strong></h4>";
+					ul.innerHTML = "<h4 style='text-decoration: underline;' class='text-center text-success mb-3 font-weight-bold'>Available files</h4>";
 
 					data.forEach(function(link) {
 						let e = document.createElement("li");
