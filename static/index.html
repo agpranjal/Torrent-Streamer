@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+	<style>
+		body {
+			padding: 0px;
+			margin: 0px;
+		}
+
+		li {
+			text-align: center;
+			list-style-type: none;
+			margin: 10px;
+		}
+
+		video {
+			width: 100%;
+			height: 500px;
+			background-color: black;
+			margin-top: 30px;
+			margin-bottom: 30px;
+		}
+
+	</style>
+
+</head>
+
+<body>
+	<nav class="navbar navbar-dark bg-dark">
+		<span class="navbar-brand text-light mb-0 h1" style="margin: auto;">T0rrent Stre4mer</span>
+	</nav>
+	
+	<video src="" controls></video>
+
+	<div id="magnet-uri-container" class="mx-auto col-6">
+		<form id="form" class="form-inline">
+		  <div class="form-group">
+			<label for="magnet" class="mr-2">Torrent link: </label>
+			<input type="text" class="form-control mr-3" id="magnet" placeholder="Magnet URI / infohash" style="width: 500px;">
+			<button type="submit" class="btn btn-primary">Submit</button>
+
+			<button class="btn btn-primary" type="submit" disabled id="loading-button" style="display: none;">
+			  <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+			  <span class="sr-only"></span>
+			  Loading...
+			</button>
+
+		  </div>
+		</form>
+	</div>
+
+	<ul class="list-group m-3" id="magnet-links">
+	</ul>
+
+	<script>
+		document.getElementById("form").onsubmit = function(e) {
+			e.preventDefault();
+			this.style.display = "none";
+			document.getElementById("loading-button").style.display = "block";
+
+			let inputData = document.getElementById("magnet");
+			let xhttp = new XMLHttpRequest();
+
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					let data = JSON.parse(this.responseText);
+					let ul = document.getElementById("magnet-links");
+
+					data.forEach(function(link) {
+						let e = document.createElement("li");
+						let a = document.createElement("a");
+						a.href = `/stream/${magnetUri}/${link}/`;
+						a.innerHTML = `${link}`;
+
+						a.onclick = function() {
+							document.querySelector("video").src = `/stream/${magnetUri}/${link}/`;
+						};
+
+						e.class = "list-group-items";
+						e.appendChild(a);
+						ul.appendChild(e);
+					});
+				}
+
+				document.getElementById("loading-button").style.display = "none";
+			};
+
+			let magnetUri = inputData.value.trim();
+			xhttp.open("GET", `/add/${magnetUri}/`, true);
+			xhttp.send();
+
+		};
+	</script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	
+</body>
+</html>
