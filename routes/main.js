@@ -5,7 +5,7 @@ let WebTorrent = require("webtorrent");
 let fs = require("fs");
 
 let client;
-let p = "/home/ag_pranjal/torrent-streamer/";
+let p = "/home/ag_pranjal/torrent-streamer/downloaded/";
 
 router.get("/add/:magnet/", function(request, response) {
 	client = new WebTorrent();
@@ -18,7 +18,7 @@ router.get("/add/:magnet/", function(request, response) {
 		});
 	
 		torrent.on("download", function() {
-			console.log("Progress:", torrent.progress*100);
+			console.log(`Downloaded: ${Math.round(torrent.downloaded/1024/1024*100)/100} MB, Progress: ${Math.round(torrent.progress*10000)/100}%`);
 		});
 
 		response.json(responseData);
@@ -59,6 +59,10 @@ function stream(file, request, response) {
 			  'Content-Type': 'video/mp4',
 			}
 		response.writeHead(206, head);
+
+		console.log();
+		console.log(`Now streaming: ${file.name}`);
+		console.log();
 
 		let s = file.createReadStream({start:start, end:end});
 		s.pipe(response);

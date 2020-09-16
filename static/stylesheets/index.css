@@ -1,0 +1,29 @@
+body {
+	padding: 0px;
+	margin: 0px;
+}
+
+li {
+	list-style-type: none;
+}
+
+li.sample-torrent:hover {
+	text-decoration: underline;
+	cursor: pointer;
+	color: blue;
+}
+
+ul#magnet-links li {
+	text-align: center;
+	list-style-type: none;
+	margin: 10px;
+}
+
+video {
+	display: none;
+}
+
+iframe {
+	width: 100%;
+	height: 500px;
+}

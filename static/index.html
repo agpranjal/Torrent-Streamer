@@ -4,55 +4,32 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
+
+	<link rel="stylesheet" href="/public/stylesheets/index.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-	<style>
-		body {
-			padding: 0px;
-			margin: 0px;
-		}
-
-		li {
-			text-align: center;
-			list-style-type: none;
-			margin: 10px;
-		}
-
-		video {
-			width: 100%;
-			height: 500px;
-			background-color: black;
-			margin-top: 30px;
-			margin-bottom: 30px;
-			display: none;
-		}
-
-		iframe {
-			width: 100%;
-			height: 500px;
-		}
-
-	</style>
+	<!--Plyr.io media player-->
+	<link rel="stylesheet" href="https://cdn.plyr.io/2.0.15/plyr.css">
 
 </head>
 
 <body>
-	<nav class="navbar navbar-dark bg-dark">
-		<span class="navbar-brand text-light mb-0 h1" style="margin: auto;">T0rrent Stre4mer</span>
-	</nav>
+	<nav class="navbar navbar-dark bg-dark mb-4">
+		<div class="block m-2">
+			<!--Button trigger modal-->
+			<button type="button" data-toggle="modal" data-target="#exampleModalCenter">
+				Open pirates bay
+			</button>
+		</div>
 
-	<div class="block m-2" style="background-color:yellow;">
-		<!--Button trigger modal-->
-		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-			Open pirates bay
-		</button>
-	</div>
+		<span class="navbar-brand text-light mb-0 h1 mx-auto">T0rrent Stre4mer</span>
+	</nav>
 
 	<!-- Modal -->
 	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
 		<div class="modal-content">
-		  <div class="modal-header">
+			<div class="modal-header">
 			<h5 class="modal-title" id="exampleModalCenterTitle">Find your torrent magnet URI here</h5>
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			  <span aria-hidden="true">&times;</span>
@@ -65,8 +42,9 @@
 	  </div>
 	</div>
 
-	<video src="" controls autoplay></video>
+	<video src="" id="plyr-video" controls></video>
 
+	<!--Torrent URI input from user-->
 	<div id="magnet-uri-container" class="mx-auto col-6">
 		<form id="form" class="form-inline">
 		  <div class="form-group">
@@ -84,39 +62,72 @@
 		</form>
 	</div>
 
+
+	<!--Sample torrents for testing -->
+	<ul class="list-group mt-5 ml-3" id="sample-torrents-container">
+		<h4 class="mb-3 text-danger ml-1"><strong>Sample torrents:</strong></h4>
+		<li class="list-group-items sample-torrent m-1"><strong>Transformers Age Of Extinction:</strong> 774DA94A7602E1B053C61205DF20C810A5621828 </li>
+		<li class="list-group-items sample-torrent m-1"><strong>Transformers Dark Of The Moon:</strong>  13EF31D1E2CB4050ADD4933CAB8C0D13F22C6252 </li>
+		<li class="list-group-items sample-torrent m-1"><strong>Batman Begins:</strong> 52FD58172C296021F2E351B8A12BBC8BE7C88F8D </li>
+		<li class="list-group-items sample-torrent m-1"><strong>Batman The Dark Knigh Returns (Pt-1)</strong> D0C50196258B143C8E65F04BB0AD51B31CCE07E5 </li>
+		<li class="list-group-items sample-torrent m-1"><strong>Nightcrawler:</strong> D4CFEF02BE5AE171673BFC3FA2B8D8D7B64E6237 </li>
+	</ul>
+
 	<ul class="list-group m-3" id="magnet-links"></ul>
 
 	<script>
-		document.getElementById("form").onsubmit = function(e) {
+		// When user clicks one of the sample torrent
+		// replace the torrent URI input field
+		document.querySelectorAll(".sample-torrent").forEach(function(e) {
+			e.onclick = function() {
+				document.getElementById("magnet").value = this.lastChild.nodeValue.trim();
+			};
+		});
+
+		// When user submits the torrent URI
+		document.getElementById("form").onsubmit = torrent;
+
+		function torrent(e) {
 			e.preventDefault();
+
+			// After torrent URI submission, hide the submit button
+			// And load the "loading" animated button
 			document.getElementById("submit").style.display = "none";
 			document.getElementById("loading-button").style.display = "block";
 
 			let inputData = document.getElementById("magnet");
 			let xhttp = new XMLHttpRequest();
 
+			// Make AJAX request to server for all the files in the submitted torrent URI
 			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
 					let data = JSON.parse(this.responseText);
 					let ul = document.getElementById("magnet-links");
+					ul.innerHTML = "<h4 style='color:green; text-align: center;'><strong>Available files</strong></h4>";
 
 					data.forEach(function(link) {
 						let e = document.createElement("li");
 						let a = document.createElement("a");
-						a.href = `/stream/${magnetUri}/${link}/`;
+
+						if (link.endsWith(".mp4") || link.endsWith(".webm"))
+							a.href = `/stream/${magnetUri}/${link}/`;
 						a.innerHTML = `${link}`;
 
+						// When user clicks one of the availale mp4/webm files, stream it
 						a.onclick = function() {
 							document.querySelector("video").style.display = "block";
 							document.querySelector("video").src = `/stream/${magnetUri}/${link}/`;
+							plyr.setup("#plyr-video");
 						};
 
 						e.class = "list-group-items";
 						e.appendChild(a);
 						ul.appendChild(e);
 					});
-
+				
+					// When the torrent has loaded, hide both the input field and sample torrents
 					document.getElementById("form").style.display = "none";
+					document.getElementById("sample-torrents-container").style.display = "none";
 				}
 
 			};
@@ -126,7 +137,13 @@
 			xhttp.send();
 
 		};
+
 	</script>
+
+
+	<!--Plyr.io media player-->
+	<script src="https://cdn.plyr.io/2.0.15/plyr.js"></script>
+
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

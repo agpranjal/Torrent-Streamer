@@ -4,7 +4,7 @@ let path = require("path");
 let app = express();
 
 
-app.use("/static/", express.static(path.join(__dirname, "static")));
+app.use("/public/", express.static(path.join(__dirname, "static")));
 app.use("/", router.router);
 
 app.get("/", function(request, response) {
