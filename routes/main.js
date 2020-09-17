@@ -4,7 +4,7 @@ let WebTorrent = require("webtorrent");
 let router = express.Router();
 
 let client;
-let p = "/home/ag_pranjal/torrent-streamer/downloaded/";
+let p = path.join(__dirname, "..", "downloaded");
 
 router.get("/add/:magnet/", function(request, response) {
 	client = new WebTorrent();
