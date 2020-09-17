@@ -11,4 +11,6 @@ app.get("/", function(request, response) {
 	response.sendFile(path.join(__dirname, "static", "index.html"));
 });
 
-app.listen(8000);
+app.listen(8000, function() {
+    console.log("Server started at localhost:8000");
+});

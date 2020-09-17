@@ -2,7 +2,6 @@ let express = require("express");
 let path = require("path");
 let router = express.Router();
 let WebTorrent = require("webtorrent");
-let fs = require("fs");
 
 let client;
 let p = "/home/ag_pranjal/torrent-streamer/downloaded/";
@@ -40,6 +39,14 @@ router.get("/stream/:magnet/:file/", function(request, response) {
 
 	console.log(file.name);
 	stream(file, request, response);
+});
+
+router.get("/status/:magnet/", function(request, response) {
+    let torrent = client.get(request.params.magnet);
+    let downloaded = Math.round(torrent.downloaded/1024/1024*100)/100;
+    let progress = Math.round(torrent.progress*10000)/100;
+
+    response.json({downloaded:downloaded, progress:progress});
 });
 
 
