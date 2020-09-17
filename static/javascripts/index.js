@@ -101,7 +101,7 @@ document.getElementById("delete-torrent-btn").onclick = function() {
     clearInterval(getStatusVar);
 
     // pause the video
-    document.getElementById("video").pause();
+    document.querySelector("video").pause();
 
     let deleteXhttp = new XMLHttpRequest();
     deleteXhttp.onreadystatechange = function() {
