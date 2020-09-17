@@ -16,17 +16,19 @@
 <body>
     <nav class="navbar navbar-dark bg-dark mb-4">
         <span id="status-container">
-            <span id="downloaded" class="text-white font-weight-bold"></span>
-            <span id="progress" class="text-white font-weight-bold"></span>
+            <span id="downloaded" class="text-white font-weight-bold"></span><br>
+            <span id="progress" class="text-white font-weight-bold"></span><br>
         </span>
 
         <span class="navbar-brand text-light mb-0 h1 mx-auto">T0rrent Stre4mer</span>
 
         <div class="block m-2 float-right col-2">
             <!--Button trigger modal-->
-            <button type="button" class="bg-dark btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+            <button type="button" class="bg-dark btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" id="open-pirates-bay-btn">
                 Open Pirates Bay
             </button>
+
+            <button type="button" id="delete-torrent-btn" style="display:none;" class="btn btn-primary bg-danger">Delete torrent</button>
         </div>
 
     </nav>
@@ -48,7 +50,9 @@
       </div>
     </div>
 
-    <video src="" id="plyr-video" controls></video>
+    <div id="video-container">
+        <video src="" id="plyr-video" type="video/mp4" controls preload></video>
+    </div>
 
     <!--Torrent URI input from user-->
     <div id="magnet-uri-container" class="mx-auto col-6">
@@ -79,13 +83,12 @@
         <li class="list-group-items sample-torrent m-1"><strong>Nightcrawler:</strong> D4CFEF02BE5AE171673BFC3FA2B8D8D7B64E6237 </li>
     </ul>
 
-    <ul class="list-group m-3" id="magnet-links"></ul>
+    <ul class="list-group m-3" id="torrent-files"></ul>
 
     <!--Plyr.io media player-->
     <script src="https://cdn.plyr.io/2.0.15/plyr.js"></script>
 
     <script src="/public/javascripts/index.js"></script>
-
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

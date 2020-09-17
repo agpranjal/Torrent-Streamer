@@ -1,7 +1,7 @@
 let express = require("express");
 let path = require("path");
-let router = express.Router();
 let WebTorrent = require("webtorrent");
+let router = express.Router();
 
 let client;
 let p = "/home/ag_pranjal/torrent-streamer/downloaded/";
@@ -37,6 +37,7 @@ router.get("/stream/:magnet/:file/", function(request, response) {
 		}
 	}
 
+
 	console.log(file.name);
 	stream(file, request, response);
 });
@@ -47,6 +48,16 @@ router.get("/status/:magnet/", function(request, response) {
     let progress = Math.round(torrent.progress*10000)/100;
 
     response.json({downloaded:downloaded, progress:progress});
+});
+
+router.get("/delete/:magnet/", function(request, response) {
+    client.remove(request.params.magnet, function() {
+        console.log();
+        console.log("********************** TORRENT REMOVED***************************");
+        console.log();
+    });
+    response.status(200);
+    response.end();
 });
 
 
