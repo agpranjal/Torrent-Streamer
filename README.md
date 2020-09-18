@@ -4,7 +4,7 @@ Stream your torrent file, while it downloads !
 ### Install nodejs
 sudo apt install nodejs
 
-### Installation
+### Installation node modules
 Change current working directory to Torrent-Streamer and type the following:
 + `npm install`
 
