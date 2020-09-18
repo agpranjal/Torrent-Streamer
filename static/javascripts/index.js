@@ -123,7 +123,7 @@ document.getElementById("delete-torrent-btn").onclick = function() {
 
     };
 
-    deleteXhttp.open("GET", `/delete/${currentMagnetUri}/`);
+    deleteXhttp.open("GET", `/delete/${currentMagnetUri}/`, true);
     deleteXhttp.send();
        
 };
