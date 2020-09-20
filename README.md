@@ -10,6 +10,6 @@ Change current working directory to Torrent-Streamer and type the following:
 
 ### How to run ?
 Type the following in your terminal
-+ `node app.js`
++ `npm start`
 
 Visit [127.0.0.1:8000](http://127.0.0.1:8000) and start streaming !
