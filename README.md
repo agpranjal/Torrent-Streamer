@@ -13,9 +13,3 @@ Type the following in your terminal
 + `npm start`
 
 Visit [127.0.0.1:8000](http://127.0.0.1:8000) and start streaming !
-
-## Screenshots:
-
-![] (./images/1.png)
-![] (./images/2.png)
-![] (./images/3.png)
