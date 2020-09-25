@@ -14,6 +14,8 @@ Type the following in your terminal
 
 Visit [127.0.0.1:8000](http://127.0.0.1:8000) and start streaming !
 
+---
+
 ## Screenshots
 
 ![](https://raw.githubusercontent.com/agpranjal/Torrent-Streamer/master/screenshots/1.png)
