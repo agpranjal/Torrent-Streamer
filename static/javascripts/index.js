@@ -28,7 +28,7 @@ function torrent(e) {
     document.getElementById("submit").style.display = "none";
     document.getElementById("loading-button").style.display = "block";
     document.getElementById("delete-torrent-btn").style.display = "block";
-    document.getElementById("open-pirates-bay-btn").style.display = "none";
+    //document.getElementById("open-pirates-bay-btn").style.display = "none";
 
     let xhttp = new XMLHttpRequest();
 
@@ -110,7 +110,7 @@ document.getElementById("delete-torrent-btn").onclick = function() {
             // revert the UI back to the initial state (ie, when the page was first loaded)
             document.getElementById("sample-torrents-container").style.display = "block";
             document.getElementById("delete-torrent-btn").style.display = "none";
-            document.getElementById("open-pirates-bay-btn").style.display = "block";
+            //document.getElementById("open-pirates-bay-btn").style.display = "block";
             document.getElementById("video-container").style.display = "none";
             document.getElementById("torrent-files").style.display = "none";
             document.getElementById("loading-button").style.display = "none";
