@@ -2,6 +2,7 @@ let express = require("express");
 let path = require("path");
 let WebTorrent = require("webtorrent");
 let router = express.Router();
+let rimraf = require("rimraf");
 
 let client;
 let p = path.join(__dirname, "..", "downloaded");
@@ -56,6 +57,9 @@ router.get("/delete/:magnet/", function(request, response) {
         console.log("********************** TORRENT REMOVED***************************");
         console.log();
     });
+
+    // Remove the downloaded folder
+    rimraf.sync(p);
     response.status(200);
     response.end();
 });
@@ -79,7 +83,7 @@ function stream(file, request, response) {
 		response.writeHead(206, head);
 
 		console.log();
-		console.log(`Now streaming: ${file.name}`);
+		console.log(`************************Streaming: ${file.name}***********************`);
 		console.log();
 
 		let s = file.createReadStream({start:start, end:end});
