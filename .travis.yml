@@ -3,7 +3,6 @@ node_js: ["stable"]
 
 script:
   - npm install
-  - npm start
 
 deploy:
   provider: heroku
