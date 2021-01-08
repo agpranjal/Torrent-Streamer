@@ -3,7 +3,7 @@ let router = require("./routes/main.js");
 let path = require("path");
 let app = express();
 
-const port = process.env.PORT || 8000;
+const port = 80;
 
 app.use("/public/", express.static(path.join(__dirname, "static")));
 app.use("/", router.router);
