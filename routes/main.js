@@ -12,11 +12,16 @@ router.get("/add/:magnet/", function(request, response) {
 	let magnet = request.params.magnet;
 
 	client.add(magnet, {path: p}, function(torrent) {
+
+        console.log();
+        console.log("*********************TORRENT ADDED **********************")
+        console.log();
+
 		let responseData = [];
 		torrent.files.forEach(function(f){
 			responseData.push(f.name);
 		});
-	
+
 		torrent.on("download", function() {
 			console.log(`Downloaded: ${Math.round(torrent.downloaded/1024/1024*100)/100} MB, Progress: ${Math.round(torrent.progress*10000)/100}%`);
 		});
@@ -26,21 +31,22 @@ router.get("/add/:magnet/", function(request, response) {
 });
 
 router.get("/stream/:magnet/:file/", function(request, response) {
-	let magnet = request.params.magnet;
-	let filename = request.params.file;
-	let torrent = client.get(magnet);
-	let file;
+    let magnet = request.params.magnet;
+    let filename = request.params.file;
+    let torrent = client.get(magnet);
+    let file;
 
-	for (let f of torrent.files) {
-		if (f.name == filename) {
-			file = f;
-			break;
-		}
-	}
+    while (!torrent);
 
+    for (let f of torrent.files) {
+        if (f.name == filename) {
+            file = f;
+            break;
+        }
+    }
 
-	console.log(file.name);
-	stream(file, request, response);
+    stream(file, request, response);
+
 });
 
 router.get("/status/:magnet/", function(request, response) {
@@ -81,10 +87,6 @@ function stream(file, request, response) {
 			  'Content-Type': 'video/mp4',
 			}
 		response.writeHead(206, head);
-
-		console.log();
-		console.log(`************************Streaming: ${file.name}***********************`);
-		console.log();
 
 		let s = file.createReadStream({start:start, end:end});
 		s.pipe(response);
