@@ -1,7 +1,7 @@
 import React from "react";
-import Files from "./Files";
+import Files from "../Files/Files";
 
-import "./Files.css";
+import "../Files/Files.css";
 
 class Stream extends React.Component {
     constructor(props) {

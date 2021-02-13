@@ -1,7 +1,7 @@
 import React from "react";
-import NavigationBar from "./NavigationBar";
-import SearchTorrent from "./SearchTorrent";
-import Stream from "./Stream";
+import NavigationBar from "../NavigationBar/NavigationBar";
+import SearchTorrent from "../SearchTorrent/SearchTorrent";
+import Stream from "../Stream/Stream";
 
 import "materialize-css/dist/css/materialize.min.css";
 import "./TorrentStreamer.css";
