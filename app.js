@@ -7,13 +7,17 @@ const app = express();
 const PORT = process.env.PORT || 8001;
 let client;
 
-app.get("/", (req, res) => {
-    res.json({"status": 200});
-});
-
 app.get("/add/:magnet/", function(request, response) {
     client = new WebTorrent();
     const magnet = request.params.magnet;
+
+    client.on("error", (err) => {
+        console.log();
+        console.log("Invalid torrent");
+        console.log();
+
+        response.status(404).send();
+    });
 
     client.add(magnet, {path: p}, function(torrent) {
         let responseData = [];
@@ -21,15 +25,17 @@ app.get("/add/:magnet/", function(request, response) {
             responseData.push(f.name);
         });
 
-        //torrent.on("download", function() {
-        //console.log(`Downloaded: ${Math.round(torrent.downloaded/1024/1024*100)/100} MB, Progress: ${Math.round(torrent.progress*10000)/100}%`);
-        //});
+        torrent.on("download", function() {
+            console.log(`Downloaded: ${Math.round(torrent.downloaded/1024/1024*100)/100} MB, Progress: ${Math.round(torrent.progress*10000)/100}%`);
+        });
 
         console.log();
         console.log("++++++++++++++++++++++ TORRENT ADDED +++++++++++++++++++++++++++");
         console.log();
 
         response.json(responseData);
+    }, (error) => {
+        console.log("Error");
     });
 });
 

@@ -7,8 +7,8 @@ class Stream extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            streaming: false,
-            source: ""
+            streaming: false,   // If the media is being streamed
+            source: ""          // Source url for video tag
         };
 
         this.videoRef = React.createRef();
@@ -28,13 +28,28 @@ class Stream extends React.Component {
 
     render() {
 
-        // If files are being downloaded, but not streamed (ie, user has not selected which file to stream)
+        // If files are being downloaded, but not streaming (ie, user has not selected which file to stream)
         if (!this.state.streaming)
-            return <Files streamTorrent={this.streamTorrent} magnetURI={this.props.magnetURI} />;
+            return (
+                <Files 
+                filesList={this.props.filesList}
+                filesLoaded={this.props.filesLoaded}
+                streamTorrent={this.streamTorrent}
+                magnetURI={this.props.magnetURI} />
+            );
         else
             return (
-                <video ref={this.videoRef} height={this.height} width={this.width} autoplay controls id="player" src={this.state.source}></video>
+                <video 
+                ref={this.videoRef} 
+                height={this.height} 
+                width={this.width} 
+                autoPlay={"on"} 
+                controls 
+                id="player" 
+                src={this.state.source}>
+            </video>
             );
+
 
     }
 }

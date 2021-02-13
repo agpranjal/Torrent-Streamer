@@ -13,7 +13,16 @@ class SearchTorrent extends React.Component {
                     <div className="nav-wrapper">
                         <form>
                             <div className="input-field">
-                                <input  className="magnet-uri-input" defaultValue={this.props.magnetURI} onChange={this.props.handleMagnetURIInput} autoComplete="off" placeholder="Magnet URI / Info Hash" id="search" type="search" required />
+                                <input  
+                                className="magnet-uri-input" 
+                                defaultValue={this.props.magnetURI} 
+                                onChange={this.props.handleMagnetURIInput} 
+                                autoComplete="off" 
+                                placeholder="Magnet URI / Info Hash" 
+                                id="search"
+                                type="search"
+                                required />
+
                                 <label className="label-icon" htmlFor="search"></label>
                                 <i onClick={this.props.downloadTorrent} className="material-icons">download</i>
                             </div>
