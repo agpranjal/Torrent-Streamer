@@ -1,0 +1,13 @@
+.magnet-uri-container {
+    margin-top: 5%;
+    background-color: white;
+    border-radius: 50px !important; 
+}
+
+.sample-torrent-container {
+    margin-top: 5%;
+}
+
+.magnet-uri-input {
+    border-radius: 50px !important;
+}

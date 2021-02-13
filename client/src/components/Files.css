@@ -1,0 +1,28 @@
+@keyframes arrows {
+    0%,
+    100% {
+        color: black;
+        transform: translateY(0);
+    }
+    50% {
+        color: #3AB493;
+        transform: translateY(20px);
+    }
+}
+
+.preloader {
+    display: flex;
+    height: 90vh;
+    align-items: center;
+    justify-content: center;
+    font-size: 3em;
+}
+
+span {
+    --delay: 0s;
+    animation: arrows 1s var(--delay) infinite ease-in;
+}
+
+.torrent-file-list-container {
+    margin-top: 10%;
+}
