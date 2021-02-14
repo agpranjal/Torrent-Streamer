@@ -16,7 +16,7 @@ class Files extends React.Component {
                 <div className="container torrent-file-list-container">
                     <ul className="center">
                         {this.props.filesList.map((f, idx) => {
-                            if (f.endsWith(".mp4") || f.endsWith(".webm") || f.endsWith(".mkv"))
+                            if (f.endsWith(".mp4") || f.endsWith(".webm"))
                                 return <li 
                                 key={idx}
                                 onClick={() => this.props.streamTorrent(f)}>

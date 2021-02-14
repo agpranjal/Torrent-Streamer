@@ -11,11 +11,22 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            magnetURI: undefined,
+            magnetURI: "",       // Magnet URI / Info Hash of the torrent
             downloading: false,  // If the torrent has started downloading
-            filesLoaded: false,
-            filesList: []
+            filesLoaded: false,  // If the front-end has obtained list of files from the server
+            filesList: [],       // List of files in the torrent
+            fileName: "",        // Currently streaming file name
+            streaming: false,    // If a file in torrent is currently being streamed
+            source: ""           // source url for video tag
         };
+    }
+
+    streamTorrent = (fileName) => {
+        this.setState({
+            fileName: fileName,
+            streaming: true,
+            source: `http://localhost:8001/stream/${this.state.magnetURI}/${fileName}`
+        })
     }
 
     handleMagnetURIInput = (e) => {
@@ -30,7 +41,7 @@ class App extends React.Component {
         if (!this.state.magnetURI.trim())
             return ;
 
-        fetch(`add/${this.state.magnetURI}/`)
+        fetch(`http://localhost:8001/add/${this.state.magnetURI}/`)
             .then((res) => {
                 return res.json()
             })
@@ -49,22 +60,34 @@ class App extends React.Component {
         });
     }
 
+    setSource = (f) => {
+        this.setState({
+            source: `http://localhost:8001/stream/${this.state.magnetURI}/${f}`
+        });
+    }
+
+    deleteTorrent = () => {
+        // Tell the server to stop downloading the torrent
+
+        fetch(`http://localhost:8001/delete/${this.state.magnetURI}`)
+            .then(() => {
+                this.resetState();
+            });
+    }
+
+
     resetState = () => {
         // Reset the states to default
 
         this.setState({
-            magnetURI: undefined,
+            magnetURI: "",
             downloading: false,
             filesLoaded: false,
-            filesList: []
-        })
-    }
-
-    deleteTorrent = () => {
-
-        // Tell the server to stop downloading the torrent
-        fetch(`/delete/${this.state.magnetURI}`);
-        this.resetState();
+            streaming: false,
+            filesList: [],
+            fileName: "",
+            source: "",
+        });
     }
 
     componentDidMount() {
@@ -72,12 +95,12 @@ class App extends React.Component {
 
         window.addEventListener("unload", () => {
             if (this.state.magnetURI)
-                fetch(`/delete/${this.state.magnetURI}`);
+                fetch(`http://localhost:8001/delete/${this.state.magnetURI}`);
         });
 
         window.addEventListener("load", () => {
             if (this.state.magnetURI)
-                fetch(`/delete/${this.state.magnetURI}`);
+                fetch(`http://localhost:8001/delete/${this.state.magnetURI}`);
         });
     }
 
@@ -85,16 +108,26 @@ class App extends React.Component {
         return (
             <div>
                 <NavigationBar 
+                magnetURI={this.state.magnetURI}
                 deleteTorrent={this.deleteTorrent}
-                downloading={this.state.downloading} />
+                downloading={this.state.downloading}
+                filesLoaded={this.state.filesLoaded}
+                setSource={this.setSource}
+                filesList={this.state.filesList} />
 
                 {
                     this.state.downloading ? 
                         <Stream 
                         filesList={this.state.filesList}
                         filesLoaded={this.state.filesLoaded}
+                        streamTorrent={this.streamTorrent}
+                        streaming={this.state.streaming}
+                        source={this.state.source}
+                        filename={this.state.fileName}
                         magnetURI={this.state.magnetURI}
-                        downloading={this.state.downloading} /> :
+                        downloading={this.state.downloading} />
+
+                        :
 
                         <SearchTorrent 
                         downloadTorrent={this.downloadTorrent} 

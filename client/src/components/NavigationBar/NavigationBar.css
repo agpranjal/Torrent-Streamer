@@ -1,3 +1,11 @@
 .navigation-bar {
     background-color: #212121;
 }
+
+.torrent-info-container {
+    color: black;
+}
+
+.torrent-info-text {
+    display: inline-block;
+}
