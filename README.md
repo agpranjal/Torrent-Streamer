@@ -1,21 +1,21 @@
 # Torrent-Streamer
 Stream torrent media in the browser, while it downloads !
 
-### Install nodejs
-sudo apt install nodejs
+### Install node.js
+`sudo apt install nodejs`
 
 ### Install dependencies
 Change current working directory to Torrent-Streamer and type the following:
-+ `npm install`
+`npm install`
 
 ### How to run ?
-Start the server:
-+ `cd server && npm start`
+#### Start the server:
+`npm start --prefix server`
 
-Start the client:
-+ `cd ../client && npm start`
+#### Start the client (in another terminal):
+`npm start --prefix client`
 
-Visit [127.0.0.1:8000](http://127.0.0.1:8000) and start streaming !
+Visit [localhost:8000](http://127.0.0.1:8000) and start streaming !
 
 ---
 
