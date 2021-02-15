@@ -124,9 +124,9 @@ class Tabs extends React.Component {
                 <div id="test2" className="col s12">
                     <ul>
                         {this.props.filesList.map((f, idx) => <li
-                        key={idx}
-                        onClick={() => this.props.setSource(f)}>
-                        {f.endsWith(".mp4") || f.endsWith(".webm") ? <a href="#">{f}</a> : f}
+                        key={idx} >
+
+                        {f.endsWith(".mp4") || f.endsWith(".webm") || f.endsWith(".ogg") || f.endsWith(".mp3") ? <a onClick={() => this.props.setSource(f)} href="#">{f}</a> : f}
                         </li>)}
                     </ul>
                 </div>

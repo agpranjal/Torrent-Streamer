@@ -17,7 +17,7 @@ class App extends React.Component {
             filesList: [],       // List of files in the torrent
             fileName: "",        // Currently streaming file name
             streaming: false,    // If a file in torrent is currently being streamed
-            source: ""           // source url for video tag
+            source: "",          // source url for video tag
         };
     }
 
@@ -69,10 +69,8 @@ class App extends React.Component {
     deleteTorrent = () => {
         // Tell the server to stop downloading the torrent
 
-        fetch(`http://localhost:8001/delete/${this.state.magnetURI}`)
-            .then(() => {
-                this.resetState();
-            });
+        fetch(`http://localhost:8001/delete/${this.state.magnetURI}`);
+        this.resetState();
     }
 
 
@@ -94,13 +92,17 @@ class App extends React.Component {
         // Tell the server to stop torrent download (if downloading) in case of refresh / reload
 
         window.addEventListener("unload", () => {
-            if (this.state.magnetURI)
+            if (this.state.magnetURI) {
                 fetch(`http://localhost:8001/delete/${this.state.magnetURI}`);
+                this.resetState();
+            }
         });
 
         window.addEventListener("load", () => {
-            if (this.state.magnetURI)
+            if (this.state.magnetURI) {
                 fetch(`http://localhost:8001/delete/${this.state.magnetURI}`);
+                this.resetState();
+            }
         });
     }
 

@@ -11,12 +11,14 @@ class Files extends React.Component {
         // If files have not yet been obtained from the server, show the preloader
         if (!this.props.filesLoaded)
             return <Preloader />;
+
+        // Show the available files in torrent
         else
             return (
                 <div className="container torrent-file-list-container">
                     <ul className="center">
                         {this.props.filesList.map((f, idx) => {
-                            if (f.endsWith(".mp4") || f.endsWith(".webm"))
+                            if (f.endsWith(".mp4") || f.endsWith(".webm") || f.endsWith(".ogg") || f.endsWith(".mp3"))
                                 return <li 
                                 key={idx}
                                 onClick={() => this.props.streamTorrent(f)}>

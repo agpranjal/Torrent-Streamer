@@ -72,8 +72,20 @@ class SampleTorrents extends React.Component {
                                 <td>D0C50196258B143C8E65F04BB0AD51B31CCE07E5</td>
                             </tr>
                             <tr>
+                                <td>Batman And Robin</td>
+                                <td>4628C4921E796C1A2EC509FAD1EFC1FC244E8775</td>
+                            </tr>
+                            <tr>
                                 <td>Nightcrawler</td>
                                 <td>D4CFEF02BE5AE171673BFC3FA2B8D8D7B64E6237</td>
+                            </tr>
+                            <tr>
+                                <td>House Of Cards Season 6</td>
+                                <td>055F64DA446919CF2E5B5CAAE12FD1A01CB139A5</td>
+                            </tr>
+                            <tr>
+                                <td>Limitless</td>
+                                <td>D58506552443C08F303F6C2C7BA4F5046456BE77</td>
                             </tr>
                         </tbody>
                     </table>

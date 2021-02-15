@@ -1,11 +1,12 @@
 const express = require("express");
+const fs = require("fs");
 const path = require("path");
 const WebTorrent = require("webtorrent");
 const p = path.join(__dirname, "Downloads");
 const cors = require("cors");
 
 const app = express();
-const PORT = 8001;
+const PORT = process.env.PORT || 8001;
 let client;
 
 app.use(cors());
@@ -28,17 +29,15 @@ app.get("/add/:magnet/", function(request, response) {
             responseData.push(f.name);
         });
 
-        torrent.on("download", function() {
-            console.log(`Downloaded: ${Math.round(torrent.downloaded/1024/1024*100)/100} MB, Progress: ${Math.round(torrent.progress*10000)/100}%`);
-        });
+        //torrent.on("download", function() {
+            //console.log(`Downloaded: ${Math.round(torrent.downloaded/1024/1024*100)/100} MB, Progress: ${Math.round(torrent.progress*10000)/100}%`);
+        //});
 
         console.log();
         console.log("++++++++++++++++++++++ TORRENT ADDED +++++++++++++++++++++++++++");
         console.log();
 
         response.json(responseData);
-    }, (error) => {
-        console.log("Error");
     });
 });
 
@@ -70,7 +69,7 @@ app.get("/status/:magnet/", function(request, response) {
         uploadSpeed: Math.round(torrent.uploadSpeed/1024*100)/100,
         totalSize: Math.round(torrent.length/1024/1024*100)/100,
         name: torrent.name,
-        infoHash: torrent.infohash,
+        infoHash: torrent.infoHash,
         magnetURI: torrent.magnetURI,
         seedRatio: torrent.ratio,
         numPeers: torrent.numPeers,
@@ -120,7 +119,6 @@ function stream(file, request, response) {
         s.pipe(response);
     }
 }
-
 
 app.listen(PORT, () => {
     console.log("Server started at", PORT);

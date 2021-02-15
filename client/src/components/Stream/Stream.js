@@ -7,9 +7,8 @@ class Stream extends React.Component {
     constructor(props) {
         super(props);
 
-        this.videoRef = React.createRef();
-        this.width = window.innerWidth;
         this.height = 80/100*window.innerHeight;
+        this.width = window.innerWidth;
     }
 
     render() {
@@ -24,10 +23,11 @@ class Stream extends React.Component {
                 setSource={this.props.setSource}
                 magnetURI={this.props.magnetURI} />
             );
+
+        // If a file in torrent has been selected to be streamed
         else
             return (
                 <video 
-                ref={this.videoRef} 
                 height={this.height} 
                 width={this.width} 
                 autoPlay={"on"} 
@@ -35,9 +35,8 @@ class Stream extends React.Component {
                 id="player" 
                 src={this.props.source} />
             );
-
-
     }
 }
+
 
 export default Stream;

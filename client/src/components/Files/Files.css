@@ -19,7 +19,7 @@
     font-size: 3em;
 }
 
-span {
+.preloader span {
     --delay: 0s;
     animation: arrows 1s var(--delay) infinite ease-in;
 }
