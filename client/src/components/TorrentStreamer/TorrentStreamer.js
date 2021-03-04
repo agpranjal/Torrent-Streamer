@@ -25,7 +25,7 @@ class App extends React.Component {
         this.setState({
             fileName: fileName,
             streaming: true,
-            source: `http://localhost:8001/stream/${this.state.magnetURI}/${fileName}`
+            source: `/stream/${this.state.magnetURI}/${fileName}`
         })
     }
 
@@ -41,7 +41,7 @@ class App extends React.Component {
         if (!this.state.magnetURI.trim())
             return ;
 
-        fetch(`http://localhost:8001/add/${this.state.magnetURI}/`)
+        fetch(`/add/${this.state.magnetURI}/`)
             .then((res) => {
                 return res.json()
             })
@@ -62,14 +62,14 @@ class App extends React.Component {
 
     setSource = (f) => {
         this.setState({
-            source: `http://localhost:8001/stream/${this.state.magnetURI}/${f}`
+            source: `/stream/${this.state.magnetURI}/${f}`
         });
     }
 
     deleteTorrent = () => {
         // Tell the server to stop downloading the torrent
 
-        fetch(`http://localhost:8001/delete/${this.state.magnetURI}`);
+        fetch(`/delete/${this.state.magnetURI}`);
         this.resetState();
     }
 
@@ -93,14 +93,14 @@ class App extends React.Component {
 
         window.addEventListener("unload", () => {
             if (this.state.magnetURI) {
-                fetch(`http://localhost:8001/delete/${this.state.magnetURI}`);
+                fetch(`/delete/${this.state.magnetURI}`);
                 this.resetState();
             }
         });
 
         window.addEventListener("load", () => {
             if (this.state.magnetURI) {
-                fetch(`http://localhost:8001/delete/${this.state.magnetURI}`);
+                fetch(`/delete/${this.state.magnetURI}`);
                 this.resetState();
             }
         });

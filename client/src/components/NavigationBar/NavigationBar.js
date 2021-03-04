@@ -16,7 +16,7 @@ class NavigationBar extends React.Component {
 
     torrentInfoModal = () => {
         if (this.props.downloading) {
-            fetch(`http://localhost:8001/status/${this.props.magnetURI}/`)
+            fetch(`/status/${this.props.magnetURI}/`)
                 .then((res) => res.json())
                 .then((torrent) => {
                     this.setState({
