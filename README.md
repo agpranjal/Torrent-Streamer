@@ -12,7 +12,9 @@ Stream torrent media in the browser, while it downloads !
 Switch to Torrent-Streamer and type:
 `npm install --prefix client && npm install --prefix server`
 
-### Run in Development environment
+--- 
+
+## For development
 #### Start the server:
 `npm start --prefix server`
 
@@ -23,9 +25,13 @@ Visit [localhost:3000](http://127.0.0.1:3000) and start streaming !
 
 ---
 
-### Run in Production environment
-Switch to Torrent-Streamer and type:
-`npm run build --prefix client && npm start --prefix server`
+## For production
+Switch to Torrent-Streamer/
+
+#### Build the react front-end
+`npm run build`
+#### Start the express server
+`npm start --prefix server`
 
 Visit [localhost:8000](http://127.0.0.1:8000) and start streaming !
 
