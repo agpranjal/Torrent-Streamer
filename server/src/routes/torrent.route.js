@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const WebTorrent = require('webtorrent');
 
-const p = path.join(__dirname, 'Downloads');
+const p = path.join(__dirname, '..', '..', 'Downloads');
 
 const router = express.Router();
 let client;
