@@ -1,6 +1,6 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./components/TorrentStreamer/TorrentStreamer";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/TorrentStreamer/TorrentStreamer';
 
 let e = <App></App>;
-ReactDOM.render(e, document.getElementById("root"));
+ReactDOM.render(e, document.getElementById('root'));
