@@ -2,10 +2,6 @@ import React from 'react';
 import './SearchTorrent.css';
 
 class SearchTorrent extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className="container">
@@ -40,15 +36,11 @@ class SearchTorrent extends React.Component {
 }
 
 class SampleTorrents extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className="row center sample-torrent-container">
         <div className="col s12">
-          <table className="centered">
+          <table className="centered responsive-table">
             <thead>
               <tr>
                 <th className="flow-text">Media</th>

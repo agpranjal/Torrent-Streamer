@@ -2,6 +2,7 @@ import React from 'react';
 import NavigationBar from '../NavigationBar/NavigationBar';
 import SearchTorrent from '../SearchTorrent/SearchTorrent';
 import Stream from '../Stream/Stream';
+import BrowseTorrent from '../BrowseTorrent/BrowseTorrent';
 
 import 'materialize-css/dist/css/materialize.min.css';
 import './TorrentStreamer.css';
@@ -18,6 +19,7 @@ class App extends React.Component {
       fileName: '', // Currently streaming file name
       streaming: false, // If a file in torrent is currently being streamed
       source: '', // source url for video tag
+      browsing: false, // if torrent is being browsed
     };
   }
 
@@ -35,28 +37,32 @@ class App extends React.Component {
     });
   };
 
-  downloadTorrent = () => {
+  disableBrowsing = () => {
+    this.setState({
+      browsing: false,
+    });
+  };
+
+  downloadTorrent = async () => {
     // Tell the server to download the torrent
 
     if (!this.state.magnetURI.trim()) return;
 
-    fetch(`/add/${this.state.magnetURI}/`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((filesList) => {
-        filesList.sort();
-        this.setState({ filesLoaded: true });
-        this.setState({ filesList: filesList });
-      })
-      .catch((error) => {
-        alert('Invalid Magnet URI / Info Hash');
-        this.resetState();
-      });
+    try {
+      this.setState({ downloading: true });
 
-    this.setState({
-      downloading: true,
-    });
+      const filesList = await fetch(`/add/${this.state.magnetURI}/`).then((res) => res.json());
+      filesList.sort();
+
+      this.setState({
+        filesList,
+        filesLoaded: true,
+      });
+    } catch (error) {
+      console.log(error);
+      alert('Invalid Magnet URI / Info Hash');
+      this.resetState();
+    }
   };
 
   setSource = (f) => {
@@ -65,11 +71,23 @@ class App extends React.Component {
     });
   };
 
+  setMagnetURI = (magnetURI) => {
+    this.setState({
+      magnetURI,
+    });
+  };
+
   deleteTorrent = () => {
     // Tell the server to stop downloading the torrent
 
     fetch(`/delete/${this.state.magnetURI}`);
     this.resetState();
+  };
+
+  browseTorrent = () => {
+    this.setState({
+      browsing: true,
+    });
   };
 
   resetState = () => {
@@ -83,6 +101,7 @@ class App extends React.Component {
       filesList: [],
       fileName: '',
       source: '',
+      browsing: false,
     });
   };
 
@@ -114,9 +133,16 @@ class App extends React.Component {
           filesLoaded={this.state.filesLoaded}
           setSource={this.setSource}
           filesList={this.state.filesList}
+          browseTorrent={this.browseTorrent}
         />
 
-        {this.state.downloading ? (
+        {this.state.browsing ? (
+          <BrowseTorrent
+            disableBrowsing={this.disableBrowsing}
+            downloadTorrent={this.downloadTorrent}
+            setMagnetURI={this.setMagnetURI}
+          ></BrowseTorrent>
+        ) : this.state.downloading ? (
           <Stream
             filesList={this.state.filesList}
             filesLoaded={this.state.filesLoaded}

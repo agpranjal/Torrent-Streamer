@@ -94,6 +94,7 @@ class NavigationBar extends React.Component {
   render() {
     let deleteTorrentButton;
     let torrentInfoButton;
+    let browseTorrent;
 
     if (this.props.downloading) {
       deleteTorrentButton = (
@@ -115,14 +116,28 @@ class NavigationBar extends React.Component {
           </li>
         </ul>
       );
-    } else deleteTorrentButton = undefined;
 
+      browseTorrent = undefined;
+    } else {
+      deleteTorrentButton = undefined;
+
+      browseTorrent = (
+        <ul className="right">
+          <li onClick={this.props.browseTorrent}>
+            <a className="btn waves-effect">
+              <i className="material-icons right">search</i>Search
+            </a>
+          </li>
+        </ul>
+      );
+    }
     return (
       <>
         <nav className="navigation-bar">
           <div className="nav-wrapper">
-            <a className="center brand-logo">T0rrent Stre4mer</a>
+            <a className="center brand-logo">Torrent Streamer</a>
 
+            {browseTorrent}
             {deleteTorrentButton}
             {torrentInfoButton}
           </div>

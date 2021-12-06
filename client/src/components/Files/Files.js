@@ -2,10 +2,6 @@ import React from 'react';
 import './Files.css';
 
 class Files extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     // If files have not yet been obtained from the server, show the preloader
     if (!this.props.filesLoaded) return <Preloader />;
@@ -30,10 +26,6 @@ class Files extends React.Component {
 }
 
 class Preloader extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className="preloader">
