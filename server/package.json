@@ -6,6 +6,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "torrent-search-api": "^2.1.4",
     "webtorrent": "^0.114.0"
   },
   "devDependencies": {
@@ -14,9 +15,11 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^2.0.15",
     "prettier": "^2.5.1"
   },
   "scripts": {
+    "start:dev": "nodemon src/server.js",
     "start": "node src/server.js"
   },
   "keywords": [],
