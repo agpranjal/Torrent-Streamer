@@ -1,13 +1,35 @@
-.magnet-uri-container {
-    margin-top: 5%;
-    background-color: white;
-    border-radius: 50px !important; 
-}
-
 .sample-torrent-container {
-    margin-top: 5%;
+  margin-top: 5%;
 }
 
-.magnet-uri-input {
-    border-radius: 50px !important;
+.magnet-uri-nav-container {
+  margin-top: 3em;
+  background: rgb(251, 251, 251);
+  border-radius: 10px;
+  padding: 30px;
+}
+
+.magnet-uri-nav-container .stream-torrents {
+  font-size: 1.7em;
+}
+
+.magnet-uri-input-container {
+  margin-top: 50px;
+}
+
+.stream-btn {
+  position: relative;
+  top: 10px !important;
+}
+
+.stream-icon {
+  font-size: 1.5em;
+  position: relative;
+  top: 11px;
+}
+
+@media all and (max-width: 600px) {
+  .magnet-uri-input-container > div {
+    padding: 0 !important;
+  }
 }

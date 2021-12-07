@@ -5,31 +5,30 @@ class SearchTorrent extends React.Component {
   render() {
     return (
       <div className="container">
-        <nav className="magnet-uri-container center">
-          <div className="nav-wrapper">
-            <form>
-              <div className="input-field">
-                <input
-                  className="magnet-uri-input"
-                  defaultValue={this.props.magnetURI}
-                  onChange={this.props.handleMagnetURIInput}
-                  autoComplete="off"
-                  placeholder="Magnet URI / Info Hash"
-                  id="search"
-                  type="search"
-                  required
-                />
+        <div className="magnet-uri-nav-container">
+          <span className="stream-torrents">
+            <i className="material-icons stream-icon">stream</i> Stream Torrents
+          </span>
 
-                <label className="label-icon" htmlFor="search"></label>
-                <i onClick={this.props.downloadTorrent} className="material-icons">
-                  download
-                </i>
-              </div>
-            </form>
+          <div className="row magnet-uri-input-container">
+            <div className="col l10 m10 s12">
+              <input
+                className="magnet-uri-input"
+                defaultValue={this.props.magnetURI}
+                onChange={this.props.handleMagnetURIInput}
+                autoComplete="off"
+                placeholder="Magnet URI / Info Hash"
+                id="search"
+                type="search"
+                required
+              />
+            </div>
+
+            <div onClick={this.props.downloadTorrent} className="col l2 m2 s12 btn stream-btn black waves-effect">
+              Stream
+            </div>
           </div>
-        </nav>
-
-        <SampleTorrents />
+        </div>
       </div>
     );
   }

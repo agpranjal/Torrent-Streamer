@@ -134,6 +134,7 @@ class App extends React.Component {
           setSource={this.setSource}
           filesList={this.state.filesList}
           browseTorrent={this.browseTorrent}
+          resetState={this.resetState}
         />
 
         {this.state.browsing ? (

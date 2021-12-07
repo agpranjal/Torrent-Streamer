@@ -14,76 +14,74 @@ class NavigationBar extends React.Component {
     this.modalRef = React.createRef();
   }
 
-  torrentInfoModal = () => {
+  torrentInfoModal = async () => {
     if (this.props.downloading) {
-      fetch(`/status/${this.props.magnetURI}/`)
-        .then((res) => res.json())
-        .then((torrent) => {
-          this.setState({
-            torrentInfo: [
-              <li key={1}>
-                <strong>Name: </strong>
-                {torrent.name}
-              </li>,
-              <li key={2}>
-                <strong>Magnet link: </strong>
-                {torrent.magnetURI}
-              </li>,
-              <li key={3}>
-                <strong>Info hash: </strong>
-                {torrent.infoHash}
-              </li>,
-              <li key={4}>
-                <strong>Downloaded: </strong>
-                {torrent.downloaded} MB
-              </li>,
-              <li key={5}>
-                <strong>Uploaded: </strong>
-                {torrent.uploaded} MB
-              </li>,
-              <li key={6}>
-                <strong>Download speed: </strong>
-                {torrent.downloadSpeed} KB/s
-              </li>,
-              <li key={7}>
-                <strong>Upload speed: </strong>
-                {torrent.uploadSpeed} KB/s
-              </li>,
-              <li key={8}>
-                <strong>Progress: </strong>
-                {torrent.progress}%
-              </li>,
-              <li key={9}>
-                <strong>No. of peers: </strong>
-                {torrent.numPeers}
-              </li>,
-              <li key={15}>
-                <strong>Seed ratio: </strong>
-                {torrent.seedRatio}
-              </li>,
-              <li key={10}>
-                <strong>Download location: </strong>
-                {torrent.downloadLocation}
-              </li>,
-              <li key={11}>
-                <strong>Total size: </strong>
-                {torrent.totalSize} MB
-              </li>,
-              <li key={12}>
-                <strong>Date of creation: </strong>
-                {torrent.dateOfCreation}
-              </li>,
-              <li key={13}>
-                <strong>Created by: </strong>
-                {torrent.createdBy}
-              </li>,
-              <li key={14}>
-                <strong>Comment: </strong>
-                {torrent.comment}
-              </li>,
-            ],
-          });
-        });
+      const torrent = await fetch(`/status/${this.props.magnetURI}/`).then((res) => res.json());
+
+      this.setState({
+        torrentInfo: [
+          <li key={1}>
+            <strong>Name: </strong>
+            {torrent.name}
+          </li>,
+          <li key={2}>
+            <strong>Magnet link: </strong>
+            {torrent.magnetURI}
+          </li>,
+          <li key={3}>
+            <strong>Info hash: </strong>
+            {torrent.infoHash}
+          </li>,
+          <li key={4}>
+            <strong>Downloaded: </strong>
+            {torrent.downloaded} MB
+          </li>,
+          <li key={5}>
+            <strong>Uploaded: </strong>
+            {torrent.uploaded} MB
+          </li>,
+          <li key={6}>
+            <strong>Download speed: </strong>
+            {torrent.downloadSpeed} KB/s
+          </li>,
+          <li key={7}>
+            <strong>Upload speed: </strong>
+            {torrent.uploadSpeed} KB/s
+          </li>,
+          <li key={8}>
+            <strong>Progress: </strong>
+            {torrent.progress}%
+          </li>,
+          <li key={9}>
+            <strong>No. of peers: </strong>
+            {torrent.numPeers}
+          </li>,
+          <li key={15}>
+            <strong>Seed ratio: </strong>
+            {torrent.seedRatio}
+          </li>,
+          <li key={10}>
+            <strong>Download location: </strong>
+            {torrent.downloadLocation}
+          </li>,
+          <li key={11}>
+            <strong>Total size: </strong>
+            {torrent.totalSize} MB
+          </li>,
+          <li key={12}>
+            <strong>Date of creation: </strong>
+            {torrent.dateOfCreation}
+          </li>,
+          <li key={13}>
+            <strong>Created by: </strong>
+            {torrent.createdBy}
+          </li>,
+          <li key={14}>
+            <strong>Comment: </strong>
+            {torrent.comment}
+          </li>,
+        ],
+      });
     }
   };
 
@@ -94,7 +92,8 @@ class NavigationBar extends React.Component {
   render() {
     let deleteTorrentButton;
     let torrentInfoButton;
-    let browseTorrent;
+    let browseTorrentButton;
+    let homeButton;
 
     if (this.props.downloading) {
       deleteTorrentButton = (
@@ -117,29 +116,44 @@ class NavigationBar extends React.Component {
         </ul>
       );
 
-      browseTorrent = undefined;
+      browseTorrentButton = undefined;
     } else {
       deleteTorrentButton = undefined;
 
-      browseTorrent = (
+      browseTorrentButton = (
         <ul className="right">
           <li onClick={this.props.browseTorrent}>
-            <a className="btn waves-effect">
+            <a>
               <i className="material-icons right">search</i>Search
             </a>
           </li>
         </ul>
       );
+
+      homeButton = (
+        <ul className="right">
+          <li onClick={this.props.resetState}>
+            <a>
+              <i className="material-icons right">home</i>Home
+            </a>
+          </li>
+        </ul>
+      );
     }
+
     return (
       <>
         <nav className="navigation-bar">
-          <div className="nav-wrapper">
-            <a className="center brand-logo">Torrent Streamer</a>
+          <div className="nav-wrapper container">
+            <a href="#" className="logo hide-on-small-only">
+              TORRENT STREAMER
+              <span className="logo-version">V2.0.0</span>
+            </a>
 
-            {browseTorrent}
+            {browseTorrentButton}
             {deleteTorrentButton}
             {torrentInfoButton}
+            {homeButton}
           </div>
         </nav>
 

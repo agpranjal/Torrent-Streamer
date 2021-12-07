@@ -1,11 +1,21 @@
 .navigation-bar {
-    background-color: #212121;
+  background-color: black;
+}
+
+.navigation-bar .logo {
+  font-size: 1.7em;
+}
+
+.navigation-bar .logo-version {
+  font-size: 0.7em;
+  color: #bbb;
+  margin-left: 10px;
 }
 
 .torrent-info-container {
-    color: black;
+  color: black;
 }
 
 .torrent-info-text {
-    display: inline-block;
+  display: inline-block;
 }
