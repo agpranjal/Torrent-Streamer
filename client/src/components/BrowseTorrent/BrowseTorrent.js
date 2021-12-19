@@ -45,13 +45,18 @@ class BrowseTorrent extends React.Component {
         loading: true,
       });
 
-      const torrents = await fetch('/browse', {
+      let torrents = await fetch('/browse', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ keywords: this.state.keywords }),
       }).then((res) => res.json());
+
+      torrents = torrents.filter((torrent) => {
+        if (torrent.title && torrent.title.trim().length) return true;
+        return false;
+      });
 
       this.setState({
         torrents,
