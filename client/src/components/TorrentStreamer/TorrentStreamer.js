@@ -44,9 +44,7 @@ class App extends React.Component {
   };
 
   downloadTorrent = async () => {
-    // Tell the server to download the torrent
-
-    if (!this.state.magnetURI.trim()) return;
+    if (!this.state.magnetURI && !this.state.magnetURI.trim().length) return;
 
     try {
       this.setState({ downloading: true });

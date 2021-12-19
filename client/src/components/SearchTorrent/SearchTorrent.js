@@ -29,6 +29,8 @@ class SearchTorrent extends React.Component {
             </div>
           </div>
         </div>
+
+        <SampleTorrents />
       </div>
     );
   }
@@ -71,10 +73,6 @@ class SampleTorrents extends React.Component {
               <tr>
                 <td>Nightcrawler</td>
                 <td>D4CFEF02BE5AE171673BFC3FA2B8D8D7B64E6237</td>
-              </tr>
-              <tr>
-                <td>House Of Cards Season 6</td>
-                <td>055F64DA446919CF2E5B5CAAE12FD1A01CB139A5</td>
               </tr>
               <tr>
                 <td>Limitless</td>

@@ -1,29 +1,22 @@
-@keyframes arrows {
-    0%,
-    100% {
-        color: black;
-        transform: translateY(0);
-    }
-    50% {
-        color: #3AB493;
-        transform: translateY(20px);
-    }
+.files-list-container {
+  background: white;
+  border-radius: 10px;
+  margin-top: 2em !important;
+  padding: 30px !important;
 }
 
-.preloader {
-    height: 90vh;
-    width: 100vw;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 3em;
+.files {
+  font-size: 2em;
 }
 
-.preloader span {
-    --delay: 0s;
-    animation: arrows 1s var(--delay) infinite ease-in;
+.files-icon {
+  font-size: 1.2em;
+  position: relative;
+  top: 5px;
+  margin-right: 5px;
 }
 
-.torrent-file-list-container {
-    margin-top: 10%;
+.file-names {
+  font-size: 1.1em;
+  margin-top: 30px;
 }
