@@ -5,22 +5,20 @@ const WebTorrent = require('webtorrent');
 const p = path.join(__dirname, '..', '..', 'Downloads');
 
 const router = express.Router();
-let client;
+const client = new WebTorrent();
 
 router.get('/add/:magnet/', function (request, response) {
-  client = new WebTorrent();
   const { magnet } = request.params;
 
   client.on('error', (err) => {
-    console.log();
-    console.log('Invalid torrent');
-    console.log();
+    console.log(err);
 
     response.status(404).send();
   });
 
-  client.add(magnet, { path: p }, function (torrent) {
+  client.add(magnet, { path: p, destroyStoreOnDestroy: true }, function (torrent) {
     const responseData = [];
+
     torrent.files.forEach(function (f) {
       responseData.push(f.name);
     });
@@ -37,10 +35,10 @@ router.get('/add/:magnet/', function (request, response) {
   });
 });
 
-router.get('/stream/:magnet/:file/', function (request, response) {
-  const { magnet } = request.params;
-  const filename = request.params.file;
+router.get('/stream/:magnet/:file/', async function (request, response) {
+  const { file: filename, magnet } = request.params;
   const torrent = client.get(magnet);
+
   let file;
 
   for (const f of torrent.files) {

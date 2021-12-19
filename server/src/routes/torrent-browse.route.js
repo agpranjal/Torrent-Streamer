@@ -8,7 +8,7 @@ const router = express.Router();
 router.post('/', async (req, res) => {
   const { keywords } = req.body;
   try {
-    let torrents = await TorrentSearchApi.search(keywords, null, 20);
+    let torrents = await TorrentSearchApi.search(keywords);
 
     torrents = torrents.map((torrent) => {
       if (torrent.magnet) {

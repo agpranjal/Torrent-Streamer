@@ -6,6 +6,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "pm2": "^5.1.2",
     "torrent-search-api": "^2.1.4",
     "webtorrent": "^0.114.0"
   },
@@ -19,8 +20,9 @@
     "prettier": "^2.5.1"
   },
   "scripts": {
+    "start": "node src/server.js",
     "start:dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start:prod": "NODE_ENV=production PORT=80 pm2 start src/server.js -f"
   },
   "keywords": [],
   "author": "",
