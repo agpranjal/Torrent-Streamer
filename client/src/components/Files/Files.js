@@ -23,22 +23,24 @@ class Files extends React.Component {
                 Files
               </span>
               <table className="responsive file-names">
-                {this.props.filesList.map((f, idx) => {
-                  if (f.endsWith('.mp4') || f.endsWith('.webm') || f.endsWith('.ogg') || f.endsWith('.mp3'))
-                    return (
-                      <tr key={idx} onClick={() => this.props.streamTorrent(f)}>
-                        <td>
-                          <a href="#">{f}</a>
-                        </td>
-                      </tr>
-                    );
-                  else
-                    return (
-                      <tr key={idx}>
-                        <td>{f}</td>
-                      </tr>
-                    );
-                })}
+                <tbody>
+                  {this.props.filesList.map((f, idx) => {
+                    if (f.endsWith('.mp4') || f.endsWith('.webm') || f.endsWith('.ogg') || f.endsWith('.mp3'))
+                      return (
+                        <tr key={idx} onClick={() => this.props.streamTorrent(f)}>
+                          <td>
+                            <a href="#">{f}</a>
+                          </td>
+                        </tr>
+                      );
+                    else
+                      return (
+                        <tr key={idx}>
+                          <td>{f}</td>
+                        </tr>
+                      );
+                  })}
+                </tbody>
               </table>
             </div>
           </div>

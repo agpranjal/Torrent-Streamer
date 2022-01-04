@@ -6,6 +6,8 @@
 
 .browse-torrent-input {
   border-radius: 50px !important;
+  border-bottom: 1px solid black !important;
+  box-shadow: 0 1px 0 0 black !important;
 }
 
 .browse-torrent-results {

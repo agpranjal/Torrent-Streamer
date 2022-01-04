@@ -78,7 +78,7 @@ class App extends React.Component {
   deleteTorrent = () => {
     // Tell the server to stop downloading the torrent
 
-    fetch(`/delete/${this.state.magnetURI}`);
+    fetch(`/delete/${this.state.magnetURI}`, { method: 'DELETE' });
     this.resetState();
   };
 
