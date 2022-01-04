@@ -1,58 +1,46 @@
 const express = require('express');
 const path = require('path');
-const WebTorrent = require('webtorrent');
+const webtorrent = require('webtorrent');
+const logger = require('../../config/logger');
 
-const p = path.join(__dirname, '..', '..', 'Downloads');
+const downloadPath = path.join(__dirname, '..', '..', 'Downloads');
 
 const router = express.Router();
-const client = new WebTorrent();
+const client = new webtorrent();
 
-router.get('/add/:magnet/', function (request, response) {
-  const { magnet } = request.params;
+router.get('/add/:magnet/', (req, res) => {
+  const { magnet } = req.params;
 
-  client.on('error', (err) => {
-    console.log(err);
+  const torrentObj = client.add(magnet, { path: downloadPath, destroyStoreOnDestroy: true }, (torrent) => {
+    logger.info(`[+] TORRENT ADDED: ${magnet}`);
 
-    response.status(404).send();
-  });
-
-  client.add(magnet, { path: p, destroyStoreOnDestroy: true }, function (torrent) {
-    const responseData = [];
-
-    torrent.files.forEach(function (f) {
-      responseData.push(f.name);
-    });
+    const torrentFiles = torrent.files.map((file) => file.name);
 
     // torrent.on("download", function() {
     // console.log(`Downloaded: ${Math.round(torrent.downloaded/1024/1024*100)/100} MB, Progress: ${Math.round(torrent.progress*10000)/100}%`);
     // });
 
-    console.log();
-    console.log('++++++++++++++++++++++ TORRENT ADDED +++++++++++++++++++++++++++');
-    console.log();
+    res.json(torrentFiles);
+  });
 
-    response.json(responseData);
+  torrentObj.on('error', (err) => {
+    logger.error(err);
+    res.status(500).end();
   });
 });
 
-router.get('/stream/:magnet/:file/', async function (request, response) {
-  const { file: filename, magnet } = request.params;
+router.get('/stream/:magnet/:file/', (req, res) => {
+  const { file: filename, magnet } = req.params;
+
   const torrent = client.get(magnet);
+  const file = torrent.files.find((f) => f.name == filename);
 
-  let file;
-
-  for (const f of torrent.files) {
-    if (f.name == filename) {
-      file = f;
-      break;
-    }
-  }
-
-  stream(file, request, response);
+  stream(file, req, res);
 });
 
-router.get('/status/:magnet/', function (request, response) {
-  const torrent = client.get(request.params.magnet);
+router.get('/status/:magnet/', (req, res) => {
+  const { magnet } = req.params;
+  const torrent = client.get(magnet);
 
   const info = {
     downloaded: Math.round((torrent.downloaded / 1024 / 1024) * 100) / 100,
@@ -72,22 +60,21 @@ router.get('/status/:magnet/', function (request, response) {
     comment: torrent.comment,
   };
 
-  response.json({ ...info });
+  res.json({ ...info });
 });
 
-router.get('/delete/:magnet/', function (request, response) {
-  client.remove(request.params.magnet, function () {
-    console.log();
-    console.log('---------------------- TORRENT REMOVED ---------------------------');
-    console.log();
-  });
-  response.status(200);
-  response.end();
+router.delete('/delete/:magnet/', function (req, res) {
+  const { magnet } = req.params;
+
+  client.remove(magnet, () => logger.info(`[-] TORRENT REMOVED: ${magnet}`));
+
+  res.status(202).end();
 });
 
 function stream(file, request, response) {
   const fileSize = file.length;
   const { range } = request.headers;
+
   if (range) {
     const parts = range.replace(/bytes=/, '').split('-');
     const start = parseInt(parts[0], 10);
@@ -102,10 +89,7 @@ function stream(file, request, response) {
     };
     response.writeHead(206, head);
 
-    // console.log();
-    // console.log(`Now streaming: ${file.name}`);
-    // console.log();
-    console.log('Streaming:', file.name);
+    logger.info(`[->] Streaming: ${file.name}`);
 
     const s = file.createReadStream({ start, end });
     s.pipe(response);

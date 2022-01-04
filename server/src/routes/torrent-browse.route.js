@@ -1,5 +1,6 @@
 const express = require('express');
 const TorrentSearchApi = require('torrent-search-api');
+const logger = require('../../config/logger');
 
 TorrentSearchApi.enablePublicProviders();
 
@@ -7,6 +8,7 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
   const { keywords } = req.body;
+
   try {
     let torrents = await TorrentSearchApi.search(keywords);
 
@@ -15,14 +17,13 @@ router.post('/', async (req, res) => {
         const infoHash = torrent.magnet.match(/\burn:btih:([A-F\d]+)\b/i)[1];
         return { infoHash, ...torrent };
       }
+
       return {};
     });
 
-    console.log(torrents);
-
     res.json(torrents);
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    logger.error(err);
     res.json([]);
   }
 });
